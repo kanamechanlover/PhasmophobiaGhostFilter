@@ -9,6 +9,9 @@ import GhostFilterTable from './components/GhostFilterTable.vue'
 
 export default {
   name: 'App',
+  router: {
+    base: '/PhasmophobiaGhostFilter.github.io/',
+  },
   components: {
     GhostFilterTable
   }
