@@ -1,13 +1,18 @@
 <template>
     <tr>
-        <td class="text-nowrap">
-            <div>ゴースト名</div>
-            <div>
-                <button
-                    class="btn btn-outline-warning btn-sm font-weight-bold"
-                    @click="clear">
-                    クリア⇒
-                </button>
+        <td class="text-nowrap position-relative pb-2">
+            <div class="w-100 h-100 text-center">
+                <div class="text-center">ゴースト名</div>
+                <div class="text-center position-absolute fixed-bottom" style="bottom: 8px;">
+                    <button
+                        class="btn btn-outline-warning btn-sm font-weight-bold"
+                        @click="clear">
+                        クリア⇒
+                    </button>
+                </div>
+                <div class="invisible">
+                    <button class="btn btn-sm"></button>
+                </div>
             </div>
         </td>
         <td v-for="trait in traitsObj" :key="trait.key" class="position-relative pb-2">
