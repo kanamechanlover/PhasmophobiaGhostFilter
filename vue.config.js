@@ -1,4 +1,4 @@
 
 module.exports = {
-    publicPath: './PhasmophobiaGhostFilter.github.io/'
+    publicPath: './PhasmophobiaGhostFilter.github.io/docs/'
 }
