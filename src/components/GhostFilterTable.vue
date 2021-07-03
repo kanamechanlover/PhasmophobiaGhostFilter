@@ -100,6 +100,14 @@ export default {
                     name: '鬼',
                     traits: 'level5,box,writing',
                 },
+                {
+                    name: 'ハントゥ',
+                    traits: 'finger,orb,writing',
+                },
+                {
+                    name: '妖怪',
+                    traits: 'box,orb,writing',
+                },
             ],
             traitStatus: { // 特徴判明状況取得
                 level5: { with: false, without: false }, // レベル5
