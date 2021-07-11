@@ -1,40 +1,43 @@
 <template>
-  <div id="app">
-    <div>
-      <h1 class="title">Phasmophobia Ghost Filter</h1>
-      <span class="update">Tool's Latest Update : 2021/7/9</span>
+    <div id="app">
+        <Layout />
     </div>
-    <GhostFilterTable />
-  </div>
 </template>
 
 <script>
-import GhostFilterTable from './components/GhostFilterTable.vue'
+import Layout from './components/Layout.vue'
 
 export default {
-  name: 'App',
-  router: {
-    base: '/PhasmophobiaGhostFilter.github.io/',
-  },
-  components: {
-    GhostFilterTable
-  }
+    name: 'App',
+    router: {
+        base: '/PhasmophobiaGhostFilter.github.io/',
+    },
+    components: {
+        Layout
+    }
 }
 </script>
 
 <style>
+html,body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+    font-family: '游ゴシック', Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    font-size: 16px;
+    height: 100%;
 }
-.title {
-  margin-bottom: 4px;
-}
-.update {
-  vertical-align: baseline;
-  font-size: 1rem;
+
+/* スマホ向け設定(横向き) */
+@media screen and (max-height: 420px) {
+    html,body {
+        overflow-y: scroll;
+    }
 }
 </style>
