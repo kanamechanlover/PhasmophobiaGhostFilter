@@ -16,7 +16,7 @@
             </TraitStatus>
         </div>
         <div class="panel-footer">
-            クリック時、不明 → 有り → 無し → 不明 と変化
+            スライド操作で証拠有り無し切り替え
         </div>
     </div>
 </template>

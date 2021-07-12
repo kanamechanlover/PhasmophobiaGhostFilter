@@ -108,11 +108,11 @@ export default {
         ...mapMutations('TraitStatus', [
             'setTraitState',
         ]),
-        onClickAction: function() {
+        onClickAction: function() {/* スマホでスライド操作時普通のタップも反応してしまうのでタップ操作を無しに
             const before = this.selected;
             this.advance();
             console.log(this.text, before + ' -> ' + this.selected);
-            this.emitChanged();
+            this.emitChanged();*/
         },
         advance: function() {
             this.selectedIndex = (this.selectedIndex + 2) % this.options.length; // ※有→無の順にする為逆順にしている

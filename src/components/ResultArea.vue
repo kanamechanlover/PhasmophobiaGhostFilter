@@ -1,8 +1,7 @@
 <template>
     <div class="frame">
-        <div class="header">
-            一致するゴースト一覧
-        </div>
+        <div class="header">一致するゴースト一覧</div>
+        <div class="usage">ゴースト名クリック(タップ)で詳細展開</div>
         <div class="list" ref="ghostList">
             <ResultGhost ref="ghosts" :text="ghost.name" @expandDetail="collapseDetail(index)"
                 v-for="(ghost, index) in ghosts" :key="index">
@@ -72,6 +71,9 @@ export default {
 .header {
     font-size: 1rem;
     font-weight: bold;
+}
+.usage {
+    font-size: 0.8rem;
 }
 .list {
     flex: 1;
