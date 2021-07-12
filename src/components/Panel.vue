@@ -16,14 +16,15 @@
             </TraitStatus>
         </div>
         <div class="panel-footer">
-            スライド操作で証拠有り無し切り替え
+            <span v-if="isSmartPhone">スライド操作で証拠有り無し切り替え</span>
+            <span v-if="!isSmartPhone">クリックの度 不明 → 有り → 無し → 不明 と切替</span>
         </div>
     </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-import { Traits } from '../models/defines.js'
+import { Traits, isSmartPhone } from '../models/defines.js'
 import TraitStatus from './TraitStatus.vue'
 
 export default {
@@ -33,6 +34,9 @@ export default {
     computed: {
         traits() {
             return Traits;
+        },
+        isSmartPhone() {
+            return isSmartPhone();
         }
     },
     methods: {
