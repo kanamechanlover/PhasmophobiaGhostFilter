@@ -10,8 +10,10 @@
                 </div>
             </div>
         </div>
-        <div class="ghost-bar" @click="toggleDetail">
-            <div class="ghost-name" :class="{ target: target, 'non-target': !target }">
+        <div class="ghost-bar" @click="toggleDetail"
+                @mouseenter="onMouseEnter" @touchstart="onMouseEnter"
+                @mouseleave="onMouseLeave" @touchend="onMouseLeave" @touchcancel="onMouseLeave">
+            <div class="ghost-name" :class="{ target: target, 'non-target': !target, hover: hover }">
                 {{ text }}
             </div>
             <div class="trait-icons">
@@ -52,6 +54,13 @@ export default {
         }
     },
     methods: {
+        // マウスイベント
+        onMouseEnter: function() {
+            this.hover = true;
+        },
+        onMouseLeave: function() {
+            this.hover = false;
+        },
         // 証拠アイコン取得
         getTraitIcon(key) {
             return TraitIcons[key];
@@ -105,6 +114,7 @@ export default {
             icons: [],
             details: [],
             collapsed: true, // ゴースト詳細格納フラグ
+            hover: false, // マウスホバーフラグ
         };
     },
     watch: {
@@ -155,6 +165,13 @@ export default {
     text-align: left;
     border-radius: 1.0rem;
     padding: 6px 16px;
+    border-width: 1px;
+    border-style: solid;
+    margin: 1px;
+}
+.ghost-name.hover {
+    border-width: 2px;
+    margin: 0px;
 }
 .trait-icons {
     position: absolute;
@@ -167,18 +184,18 @@ export default {
     width: 100%;
     padding-right: 20px;
 }
-.icon {
+.trait-icons .icon {
     margin-left: 4px;
     color: white;
 }
 .ghost-name.target {
-    border: 1px solid green;
+    border-color: green;
     background: mediumseagreen;
     color: white;
     font-size: 1.0rem;
 }
 .ghost-name.non-target {
-    border: 1px solid silver;
+    border-color: silver;
     background: transparent;
     font-size: 1.0rem;
 }
@@ -191,7 +208,7 @@ export default {
     flex-direction: column;
 }
 .ghost-details {
-    padding: 32px 8px 2px 16px;
+    padding: 34px 8px 2px 16px;
     background: whitesmoke;
     border-radius: 1rem;
     text-align: left;

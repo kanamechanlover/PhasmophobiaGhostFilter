@@ -149,6 +149,8 @@ export default {
     border: 1px solid green;
     background: mediumseagreen;
     padding-left: 8px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 .right {
     flex: 1;
@@ -156,6 +158,8 @@ export default {
     border: 1px solid red;
     background: tomato;
     padding-right: 8px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 .middle {
     position: absolute;
