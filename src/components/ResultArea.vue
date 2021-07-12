@@ -4,7 +4,7 @@
             一致するゴースト一覧
         </div>
         <div class="list" ref="ghostList">
-            <ResultGhost ref="ghosts" :text="ghost.name"
+            <ResultGhost ref="ghosts" :text="ghost.name" @expandDetail="collapseDetail(index)"
                 v-for="(ghost, index) in ghosts" :key="index">
             </ResultGhost>
         </div>
@@ -43,6 +43,13 @@ export default {
                 ghost.update();
             });
         },
+        collapseDetail: function(index) {
+            this.$refs.ghosts.forEach((ghost, i) => {
+                if (i != index) {
+                    ghost.collapseDetail();
+                }
+            })
+        }
     },
     data: function() {
         return {

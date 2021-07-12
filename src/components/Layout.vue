@@ -79,7 +79,8 @@ export default {
         height: 100%;
     }
     .layout-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        line-height: 1.0rem;
     }
     .layout-contents {
         flex-direction: column-reverse;

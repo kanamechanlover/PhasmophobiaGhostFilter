@@ -261,7 +261,6 @@ export default {
         -1px  0px 0px white,
          0px -1px 0px white;
 }
-
 /* スマホ向け設定 */
 @media screen and (max-width: 480px) {
     .lever {

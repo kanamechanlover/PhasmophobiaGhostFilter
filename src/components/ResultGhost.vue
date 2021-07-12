@@ -1,11 +1,23 @@
 <template>
     <div class="ghost-frame" :class="{ 'non-target': !target }">
-        <div class="ghost-name" :class="{ target: target, 'non-target': !target }">
-            {{ text }}
+        <div class="ghost-content">
+            <div class="ghost-details">
+                <div class="ghost-details-wrapper"  v-if="!collapsed">
+                    <div class="ghost-detail" v-for="(detail, index) in details" :key="index"
+                            :class="{ target: target, 'non-target': !target }">
+                        {{ detail }}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="trait-icons">
-            <div class="icon" v-for="(icon, index) in icons" :key="index">
-                <i :class="getTraitIcon(icon)" :title="getTraitName(icon)"></i>
+        <div class="ghost-bar" @click="toggleDetail">
+            <div class="ghost-name" :class="{ target: target, 'non-target': !target }">
+                {{ text }}
+            </div>
+            <div class="trait-icons">
+                <div class="icon" v-for="(icon, index) in icons" :key="index">
+                    <i :class="getTraitIcon(icon)" :title="getTraitName(icon)"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -13,7 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Traits, TraitIcons, TraitState, getGhostTraits } from '../models/defines.js'
+import { Traits, TraitIcons, TraitState, getGhostTraits, getGhostDetails } from '../models/defines.js'
 export default {
     props: {
         // ゴースト名
@@ -24,6 +36,7 @@ export default {
     },
     mounted: function() {
         this.update();
+        this.updateDetails();
     },
     computed: {
         ...mapGetters('TraitStatus', [
@@ -68,18 +81,37 @@ export default {
             else {
                 this.icons = [];
             }
+        },
+        // ゴースト詳細取得
+        updateDetails: function() {
+            this.details = getGhostDetails(this.text);
+        },
+        // ゴースト詳細表示非表示切替
+        toggleDetail: function() {
+            console.log('toggleDetail');
+            this.collapsed = !this.collapsed;
+            if (!this.collapsed) {
+                this.$emit('expandDetail');
+            }
+        },
+        // ゴースト詳細非表示(格納)
+        collapseDetail: function() {
+            this.collapsed = true;
         }
     },
     data: function() {
         return {
             target: true,
-            icons: []
+            icons: [],
+            details: [],
+            collapsed: true, // ゴースト詳細格納フラグ
         };
     },
     watch: {
         text: function(...args) {
             console.log('ResultGhost', args);
             this.update();
+            this.updateDetails();
         },
     },
 }
@@ -89,12 +121,34 @@ export default {
 
 .ghost-frame {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+    border: 1px solid gray;
+    border-radius: 1rem;
+    position: relative;
+    user-select: none;
+}
+.ghost-name {
+    flex: 1;
+    line-height: 0.8rem;
+    text-align: left;
+    border-radius: 1.0rem;
+    padding: 6px 16px;
+}
+
+.ghost-bar {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
     padding: 4px;
     display: flex;
     flex-direction: row;
-    position: relative;
-    margin-bottom: 4px;
+    padding: 4px;
+    cursor: pointer;
 }
+
 .ghost-name {
     flex: 1;
     line-height: 0.8rem;
@@ -117,7 +171,7 @@ export default {
     margin-left: 4px;
     color: white;
 }
-.target {
+.ghost-name.target {
     border: 1px solid green;
     background: mediumseagreen;
     color: white;
@@ -126,6 +180,27 @@ export default {
 .ghost-name.non-target {
     border: 1px solid silver;
     background: transparent;
+    font-size: 1.0rem;
+}
+
+/* 格納コンテンツの内容 */
+.ghost-content {
+    border-radius: 1rem;
+    background: silver;
+    display: flex;
+    flex-direction: column;
+}
+.ghost-details {
+    padding: 32px 8px 2px 16px;
+    background: whitesmoke;
+    border-radius: 1rem;
+    text-align: left;
+}
+.ghost-details.target {
+    border: 1px solid green;
+}
+.ghost-details.non-target {
+    border: 1px solid green;
 }
 
 /* スマホ向け設定 */

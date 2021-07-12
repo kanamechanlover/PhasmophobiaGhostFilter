@@ -7,7 +7,7 @@ export const Traits = [
     { key: 'finger', name: '指紋' },
     { key: 'orb', name: 'ゴースト オーブ' },
     { key: 'writing', name: 'ゴースト ライティング' },
-    { key: 'freezing', name: '氷点下の温度' },
+    { key: 'freezing', name: '氷点下 の温度' },
 ];
 
 // 証拠アイコン
@@ -27,70 +27,175 @@ export const TraitState = {
     Without: 'without', // 証拠無し
 };
 
-// ゴースト・証拠リスト
+// ゴースト情報リスト
 // traits: level5/box/finger/orb/writing/freezing カンマ区切り
 export const GhostTraits = [
     {
         name: 'スピリット',
         traits: 'box,finger,writing',
+        details: [
+            'スマッジスティックの効果時間が長い。',
+            '（倍になる）',
+            '活動性・攻撃性はどちらかと言えば低い。',
+        ]
     },
     {
         name: 'レイス',
         traits: 'box,finger,freezing',
+        details: [
+            '足音があまりしない。',
+            '（塩を崩すが足跡が残らない）',
+            '塩を踏むと活動性が上昇する。',
+            'ドアを透過する。',
+            '（ドア1枚先のプレイヤーを発見できる）',
+        ],
     },
     {
         name: 'ファントム',
         traits: 'level5,orb,freezing',
+        details: [
+            '写真を撮ることはできるが、',
+            '姿は写真に写らない。',
+            '直視すると、他のゴーストに比べ',
+            '正気度の低下が早い。',
+            '写真を撮っても、ハントモードを',
+            '止めることはできない。',
+            'ハントモードの（ライト点滅）時間が長い。',
+        ],
     },
     {
         name: 'ポルターガイスト',
         traits: 'box,finger,orb',
+        details: [
+            '頻繁に物を動かし、',
+            '照明や電化製品を操作する。',
+            'プレイヤーの近くで物を動かすと',
+            '直視していなくとも正気度が減る。',
+        ],
     },
     {
         name: 'バンシー',
         traits: 'level5,finger,freezing',
+        details: [
+            '特定の一人をずっと追跡する。',
+            '（対象はランダム？）',
+            '特定の一人が建物の外にいるときは',
+            'ハントモードにならない。',
+            '正気度に関係なくハントモードに',
+            'なることがある。',
+            '十字架の効果範囲が広い。（５ｍ）',
+        ],
     },
     {
         name: 'ジン',
         traits: 'level5,box,orb',
+        details: [
+            '比較的電化製品の操作が多い。',
+            '（電話やラジオ、テレビ、車等）',
+            'プレイヤーから遠いほど',
+            '移動速度が速い。',
+            'ブレーカーが落ちていると',
+            '通常の移動速度になる。',
+        ],
     },
     {
         name: 'メア―',
         traits: 'box,orb,freezing',
+        details: [
+            '比較的ブレーカーをよく落とす。',
+            '明るい場所ではハントモードに',
+            '入りにくい。',
+            '暗い場所にいるプレイヤーを',
+            '襲いやすい。',
+        ],
     },
     {
         name: 'レヴナント',
         traits: 'level5,finger,writing',
+        details: [
+            'ハントモード中の移動速度が',
+            '一番速い。',
+            'プレイヤーから遠い時と',
+            '非ハントモード時は移動速度が',
+            '極端に遅い。',
+        ],
     },
     {
         name: 'シェード',
         traits: 'level5,orb,writing',
+        details: [
+            'プレイヤーが複数人で',
+            '行動しているとほとんど活動しない。',
+            '正気度が低いと複数人で行動して',
+            'いてもハントモードは始まる。',
+            'プレイヤーが一人になると活発に行動する。',
+        ],
     },
     {
         name: 'デーモン',
         traits: 'box,writing,freezing',
+        details: [
+            'ハント頻度が一番高い。',
+            '（正気度80%でも始まることがある）',
+            'ウィジャ盤成功時正気度が下がらない。',
+            '（失敗時は40%下がる）',
+        ],
     },
     {
         name: '幽霊',
         traits: 'orb,writing,freezing',
+        details: [
+            '頻繁に物を動かしたり姿を見せたり',
+            'して正気度を下げる。',
+            '超常現象を起こした際の',
+            '正気度低下量が大きい。',
+            'スマッジスティックで90秒間',
+            'ゴーストルームに閉じ込められる。',
+        ],
     },
     {
         name: '鬼',
         traits: 'level5,box,writing',
+        details: [
+            'プレイヤーが複数人で',
+            '行動していると活発になる。',
+            '物を飛ばす力が強く、遠くへ飛ばす。',
+        ],
     },
     {
         name: 'ハントゥ',
         traits: 'finger,orb,writing',
+        details: [
+            '温度が低いほど活発化し',
+            '移動速度が上がる。',
+            '逆に暖かい場所では',
+            '移動速度が低下する。',
+        ],
     },
     {
         name: '妖怪',
         traits: 'box,orb,writing',
+        details: [
+            '近くでプレイヤーが会話すると',
+            '活発化し、攻撃的になる。',
+            'ハント中、遠くにいるプレイヤーの',
+            '声には反応しない。',
+        ],
     },
 ];
+// ゴーストの証拠を取得
 export const getGhostTraits = function(name) {
     const index = GhostTraits.findIndex(ghost => {
         return ghost.name == name;
     });
     if (index < 0) return [];
     return GhostTraits[index].traits.split(',');
+};
+// ゴーストの詳細を取得
+export const getGhostDetails = function(name) {
+    const index = GhostTraits.findIndex(ghost => {
+        return ghost.name == name;
+    });
+    if (index < 0) return [];
+    return GhostTraits[index].details;
 };

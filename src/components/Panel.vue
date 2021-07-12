@@ -15,6 +15,9 @@
                 v-for="(trait, index) in traits" :key="index" :text="trait.name">
             </TraitStatus>
         </div>
+        <div class="panel-footer">
+            クリック時、不明 → 有り → 無し → 不明 と変化
+        </div>
     </div>
 </template>
 
@@ -98,7 +101,9 @@ export default {
     padding: 0px 4px;
     margin-bottom: 8px;
 }
-
+.panel-footer {
+    font-size: 0.8rem;
+}
 
 /* スマホ向け設定 */
 @media screen and (max-width: 480px) {
