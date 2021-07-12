@@ -1,16 +1,19 @@
 <template>
-    <div class="frame" @click="onClickAction"
-            @mouseenter="onMouseEnter" @touchstart="onMouseEnter"
-            @mouseleave="onMouseLeave" @touchend="onMouseLeave">
+    <div class="frame" @click="onClickAction" @touch="onClickAction"
+            @mouseenter="onMouseEnter" @mouseleave="onMouseLeave"
+            @touchstart="onTouchStart" @touchmove="onTouchMove"
+            @touchend="onTouchEnd" @touchleave="onTouchEnd" @touchcancel="onTouchEnd">
         <div class="back">
-            <div class="left" :class="{next: nextSelect == 1, hover: hover}"></div>
+            <div class="left" :class="{next: nextSelect == 0, hover: hover}"></div>
             <div class="right" :class="{next: nextSelect == 2, hover: hover}"></div>
         </div>
         <div class="middle">
-            <div class="lever" :class="{
-                neutral: isNeutral, with: isWith, without: isWithout,
-                'on-with': isWith, 'on-without': isWithout, hover: hover,
-            }"></div>
+            <div class="middle-wrapper" ref="middle">
+                <div class="lever" ref="lever" :class="{
+                    'neutral': isNeutral, 'with': isWith, 'without': isWithout,
+                    'on-with': isWith, 'on-without': isWithout, 'hover': hover, 'touching': touching
+                }" :style="{left: leverX}"></div>
+            </div>
         </div>
         <div class="front icon mix-blrend-multiply">
             <div class="front-icon" v-for="index in 3" :key="index">
@@ -19,7 +22,7 @@
         </div>
         <div class="front">
             <div class="with-text">
-                <span>{{ optionNames[1] }}</span>
+                <span>{{ optionNames[0] }}</span>
             </div>
             <div class="lever-text">
                 <span class="outline-white" v-html="computedText"></span>
@@ -49,18 +52,57 @@ export default {
         computedText() {
             return this.text.replace(/\s/, '<br />');
         },
-        // 無指定
-        isNeutral() {
-            return this.selected == TraitState.Unknown;
+        ready: {
+            cache: false, // 何故か更新されないのでキャッシュ無効化
+            get() {
+                return !!(this.$refs.lever);
+            }
         },
-        // 有り
-        isWith() {
-            return this.selected == TraitState.With;
+        // 証拠不明
+        isNeutral: {
+            cache: false, // 何故か更新されないのでキャッシュ無効化
+            get() {
+                const stateUnknown = this.selected == TraitState.Unknown;
+                const center = this.ready &&
+                    (this.touchLeverX <= this.slideWidth * 2 / 3) &&
+                    (this.touchLeverX >= this.slideWidth / 3);
+                return (!(this.touching) && stateUnknown) || (this.touching && center);
+            }
         },
-        // 無し
-        isWithout() {
-            return this.selected == TraitState.Without;
+        // 証拠有り
+        isWith: {
+            cache: false, // 何故か更新されないのでキャッシュ無効化
+            get() {
+                const stateWith = this.selected == TraitState.With;
+                const left = this.ready && this.touchLeverX < this.slideWidth / 3;
+                return (!(this.touching) && stateWith) || (this.touching && left);
+            }
         },
+        // 証拠無し
+        isWithout: {
+            cache: false, // 何故か更新されないのでキャッシュ無効化
+            get() {
+                const stateWithout = this.selected == TraitState.Without;
+                const right = this.ready && this.touchLeverX > this.slideWidth * 2 / 3;
+                return (!(this.touching) && stateWithout) || (this.touching && right);
+            }
+        },
+        // レバー幅
+        leverWidth() {
+            return this.$refs.lever.getBoundingClientRect().width;
+        },
+        // ミドルフレーム幅
+        middleFrameWidth() {
+            return this.$refs.middle.getBoundingClientRect().width;
+        },
+        // スライド幅
+        slideWidth() {
+            return this.middleFrameWidth - this.leverWidth;
+        },
+        // レバー座標
+        leverX() {
+            return this.touchLeverX + 'px';
+        }
     },
     methods: {
         ...mapMutations('TraitStatus', [
@@ -70,17 +112,24 @@ export default {
             const before = this.selected;
             this.advance();
             console.log(this.text, before + ' -> ' + this.selected);
-            this.$emit('changed', { selected: this.selected });
+            this.emitChanged();
         },
         advance: function() {
-            this.selectedIndex = (this.selectedIndex + 1) % this.options.length;
+            this.selectedIndex = (this.selectedIndex + 2) % this.options.length; // ※有→無の順にする為逆順にしている
             this.selected = this.options[this.selectedIndex];
-            this.nextSelect = (this.selectedIndex + 1) % this.options.length;
+            this.nextSelect = (this.selectedIndex + 2) % this.options.length;
         },
         reset: function() {
             this.selectedIndex = 0;
             this.selected = TraitState.Unknown;
             this.nextSelect = 1;
+        },
+        setSelected: function(state) {
+            this.selected = state;
+            this.selectedIndex = this.options.indexOf(state);
+        },
+        emitChanged: function() {
+            this.$emit('changed', { selected: this.selected });
         },
 
         // マウスホバー検知
@@ -89,6 +138,51 @@ export default {
         },
         onMouseLeave: function() {
             this.hover = false;
+        },
+
+        // タッチ操作によるスライド検知
+        setCurrentStatusPos: function(x) {
+            console.log('setCurrentStatusPos', this.selectedIndex, x, this.touchLeverX);
+            this.touchStartX = x;
+            const width = this.slideWidth / 2;
+            this.touchLeverX = width * this.selectedIndex;
+            console.log('setCurrentStatusPos', this.touchLeverX);
+        },
+        onTouchStart: function(e) {
+            this.touching = true;
+            this.setCurrentStatusPos(e.touches[0].clientX);
+        },
+        onTouchEnd: function() {
+            // デフォルトは「不明」
+            let newSelected = TraitState.Unknown;
+            // 左寄りなら「有り」へ
+            if (this.touchLeverX < this.slideWidth / 3) {
+                newSelected = TraitState.With;
+            }
+            // 右寄りなら「無し」へ
+            else if (this.touchLeverX > this.slideWidth * 2 / 3) {
+                newSelected = TraitState.Without;
+            }
+            // 変化したら値変更
+            if (this.selected != newSelected) {
+                this.setSelected(newSelected);
+                this.emitChanged();
+            }
+            this.touching = false;
+        },
+        onTouchMove: function(e) {
+            // レバー移動
+            const diffX = e.touches[0].clientX - this.touchStartX;
+            const base = this.selectedIndex * (this.slideWidth / 2)
+            this.touchLeverX = base + diffX;
+            // 移動範囲制限
+            if (this.touchLeverX < 0) {
+                this.touchLeverX = 0;
+            }
+            else if (this.touchLeverX > this.slideWidth) {
+                this.touchLeverX = this.slideWidth;
+            }
+            console.log('onTouchMove', e.touches[0].clientX, diffX, this.touchLeverX);
         },
 
         // その他
@@ -101,16 +195,20 @@ export default {
     data() {
         return {
             // 選択肢
-            options: [TraitState.Unknown, TraitState.With, TraitState.Without],
-            optionNames: ['', '有', '無'],
+            options: [TraitState.With, TraitState.Unknown, TraitState.Without],
+            optionNames: ['有', '', '無'],
             // 選択中の値
             selected: TraitState.Unknown,
-            selectedIndex: 0,
+            selectedIndex: 1,
             // クリックしたら選択状態になる値
             nextSelect: 1,
             hover: false,
             // 証拠キー
             traitIcon: '',
+            // タッチスライド操作
+            touching: false, // タッチしているか
+            touchStartX: 0, // タッチ開始x位置
+            touchLeverX: 0, // レバーのx位置(フレーム左端を 0 とする)
         };
     },
     watch: {
@@ -169,12 +267,24 @@ export default {
     height: 100%;
     padding: 0px 4px;
 }
+.middle-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 .lever {
     width: 75%;
     background: white;
     border: 1px solid black;
     border-width: 2px;
     text-align: center;
+}
+.lever.touching {
+    position: absolute !important;
+    margin-left: initial;
+    margin-right: initial;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .neutral {
     margin-left: auto;

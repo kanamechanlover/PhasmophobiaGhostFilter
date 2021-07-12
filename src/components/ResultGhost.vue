@@ -71,7 +71,6 @@ export default {
         },
         // 更新
         update() {
-            console.log('ResultGhost.update', this.text);
             const traits = getGhostTraits(this.text);
             this.target = Traits.every(trait => {
                 const key = trait.key;

@@ -199,3 +199,12 @@ export const getGhostDetails = function(name) {
     if (index < 0) return [];
     return GhostTraits[index].details;
 };
+
+// スマホ（縦長）である
+export const isSmartPhone = function() {
+    if (window.matchMedia && window.matchMedia('(max-device-width: 480px)').matches) {
+        return true;
+    } else {
+        return false;
+    }
+}
