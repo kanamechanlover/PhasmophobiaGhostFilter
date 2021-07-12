@@ -24,6 +24,7 @@ html,body {
     height: 100%;
     overflow: hidden;
     touch-action: manipulation; /* ダブルタップによる拡大を無効 */
+    user-select: none;
 }
 #app {
     font-family: '游ゴシック', Avenir, Helvetica, Arial, sans-serif;
