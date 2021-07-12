@@ -12,9 +12,9 @@
                 'on-with': isWith, 'on-without': isWithout, hover: hover,
             }"></div>
         </div>
-        <div class="front mix-blrend-multiply">
-            <div class="front-icon">
-                <i class="fa-2x" :class="traitIcon"></i>
+        <div class="front icon mix-blrend-multiply">
+            <div class="front-icon" v-for="index in 3" :key="index">
+                <i :class="{'fa-2x': index == 2, 'fa-lg': index != 2, [traitIcon]: true}"></i>
             </div>
         </div>
         <div class="front">
@@ -211,20 +211,23 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     line-height: 1rem;
     text-align: center;
     padding: 0px 4px;
 }
 
 .front-icon {
-    flex: 1;
-    color: gray;
+    color: lightgray;
     height: 1rem;
     text-align: center;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+.front-icon:nth-child(2) {
+    color: gray;
 }
 
 .with-text, .without-text {
