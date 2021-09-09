@@ -8,6 +8,7 @@ export const Traits = [
     { key: 'orb', name: 'ゴースト オーブ' },
     { key: 'writing', name: 'ゴースト ライティング' },
     { key: 'freezing', name: '氷点下 の温度' },
+    { key: 'dots', name: 'D.O.T.S. プロジェクター' }
 ];
 
 // 証拠アイコン
@@ -18,6 +19,7 @@ export const TraitIcons = {
     orb: 'fab fa-cloudversify fa-fw',
     writing: 'fas fa-book-open fa-fw',
     freezing: 'fas fa-temperature-low fa-fw',
+    dots: 'fas fa-spray-can fa-fw',
 };
 
 // 証拠判明状態
@@ -32,7 +34,7 @@ export const TraitState = {
 export const GhostTraits = [
     {
         name: 'スピリット',
-        traits: 'box,finger,writing',
+        traits: 'level5,box,writing',
         details: [
             'スマッジスティックの効果時間が長い。',
             '（倍になる）',
@@ -41,7 +43,7 @@ export const GhostTraits = [
     },
     {
         name: 'レイス',
-        traits: 'box,finger,freezing',
+        traits: 'level5,box,dots',
         details: [
             '足音があまりしない。',
             '（塩を崩すが足跡が残らない）',
@@ -52,7 +54,7 @@ export const GhostTraits = [
     },
     {
         name: 'ファントム',
-        traits: 'level5,orb,freezing',
+        traits: 'box,finger,dots',
         details: [
             '写真を撮ることはできるが、',
             '姿は写真に写らない。',
@@ -65,7 +67,7 @@ export const GhostTraits = [
     },
     {
         name: 'ポルターガイスト',
-        traits: 'box,finger,orb',
+        traits: 'box,finger,writing',
         details: [
             '頻繁に物を動かし、',
             '照明や電化製品を操作する。',
@@ -75,7 +77,7 @@ export const GhostTraits = [
     },
     {
         name: 'バンシー',
-        traits: 'level5,finger,freezing',
+        traits: 'finger,orb,dots',
         details: [
             '特定の一人をずっと追跡する。',
             '（対象はランダム？）',
@@ -88,7 +90,7 @@ export const GhostTraits = [
     },
     {
         name: 'ジン',
-        traits: 'level5,box,orb',
+        traits: 'level5,finger,freezing',
         details: [
             '比較的電化製品の操作が多い。',
             '（電話やラジオ、テレビ、車等）',
@@ -100,7 +102,7 @@ export const GhostTraits = [
     },
     {
         name: 'メア―',
-        traits: 'box,orb,freezing',
+        traits: 'box,orb,writing',
         details: [
             '比較的ブレーカーをよく落とす。',
             '明るい場所ではハントモードに',
@@ -111,7 +113,7 @@ export const GhostTraits = [
     },
     {
         name: 'レヴナント',
-        traits: 'level5,finger,writing',
+        traits: 'orb,writing,freezing',
         details: [
             'ハントモード中の移動速度が',
             '一番速い。',
@@ -122,7 +124,7 @@ export const GhostTraits = [
     },
     {
         name: 'シェード',
-        traits: 'level5,orb,writing',
+        traits: 'level5,writing,freezing',
         details: [
             'プレイヤーが複数人で',
             '行動しているとほとんど活動しない。',
@@ -133,7 +135,7 @@ export const GhostTraits = [
     },
     {
         name: 'デーモン',
-        traits: 'box,writing,freezing',
+        traits: 'finger,writing,freezing',
         details: [
             'ハント頻度が一番高い。',
             '（正気度80%でも始まることがある）',
@@ -143,7 +145,7 @@ export const GhostTraits = [
     },
     {
         name: '幽霊',
-        traits: 'orb,writing,freezing',
+        traits: 'orb,freezing,dots',
         details: [
             '頻繁に物を動かしたり姿を見せたり',
             'して正気度を下げる。',
@@ -155,7 +157,7 @@ export const GhostTraits = [
     },
     {
         name: '鬼',
-        traits: 'level5,box,writing',
+        traits: 'level5,freezing,dots',
         details: [
             'プレイヤーが複数人で',
             '行動していると活発になる。',
@@ -164,7 +166,7 @@ export const GhostTraits = [
     },
     {
         name: 'ハントゥ',
-        traits: 'finger,orb,writing',
+        traits: 'finger,orb,freezing',
         details: [
             '温度が低いほど活発化し',
             '移動速度が上がる。',
@@ -174,12 +176,29 @@ export const GhostTraits = [
     },
     {
         name: '妖怪',
-        traits: 'box,orb,writing',
+        traits: 'box,orb,dots',
         details: [
             '近くでプレイヤーが会話すると',
             '活発化し、攻撃的になる。',
             'ハント中、遠くにいるプレイヤーの',
             '声には反応しない。',
+        ],
+    },
+    {
+        name: '御霊',
+        traits: 'level5,finger,dots',
+        details: [
+            '近くに人が居ない時にカメラに',
+            '映りやすい。',
+            'カメラ越しでのみ視認可能。',
+        ],
+    },
+    {
+        name: 'マイリング',
+        traits: 'level5,finger,writing',
+        details: [
+            '頻繁に怪奇音を立てる。',
+            'ハントを行う際には静かになる。',
         ],
     },
 ];

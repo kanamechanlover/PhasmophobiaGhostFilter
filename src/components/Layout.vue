@@ -2,7 +2,7 @@
     <div class="layout-frame">
         <div class="layout-header">
             <div class="layout-title">Phasmophobia Ghost Filter</div>
-            <div class="layout-update">Tool's Latest Update : 2021/7/13</div>
+            <div class="layout-update">Tool's Latest Update : 2021/9/10</div>
         </div>
         <div class="layout-contents">
             <div class="layout-panel">
